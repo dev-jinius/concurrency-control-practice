@@ -1,4 +1,4 @@
-package com.concurrency.demo;
+package com.concurrency.demo.integration;
 
 import com.concurrency.demo.domain.Product;
 import com.concurrency.demo.domain.ProductService;
