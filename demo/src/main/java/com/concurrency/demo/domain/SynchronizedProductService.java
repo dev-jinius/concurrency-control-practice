@@ -19,11 +19,11 @@ public class SynchronizedProductService {
      * @param requestProduct
      * @throws Exception
      */
-    public synchronized void decreaseStock(Product requestProduct) throws Exception {
+    public synchronized Product decreaseStock(Product requestProduct) throws Exception {
         // 재고 차감
         Product product = findProduct(requestProduct.getProductId());
         product.decreaseStock(requestProduct.getStock());
 
-        productRepository.saveAndFlush(product);
+        return productRepository.saveAndFlush(product);
     }
 }

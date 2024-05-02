@@ -18,10 +18,10 @@ public class ProductService {
      * 동시성 제어 없는 재고 차감
      * @param requestProduct
      */
-    public void decreaseStock(Product requestProduct) throws Exception {
+    public Product decreaseStock(Product requestProduct) throws Exception {
         Product product = findProduct(requestProduct.getProductId());
         product.decreaseStock(requestProduct.getStock());
 
-        productRepository.saveAndFlush(product);
+        return productRepository.saveAndFlush(product);
     }
 }

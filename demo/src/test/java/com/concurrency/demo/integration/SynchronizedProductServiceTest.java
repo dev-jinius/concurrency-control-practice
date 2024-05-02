@@ -25,7 +25,6 @@ import static org.assertj.core.api.Assertions.*;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@AutoConfigureMockMvc
 class SynchronizedProductServiceTest {
 
     @Autowired
@@ -70,7 +69,7 @@ class SynchronizedProductServiceTest {
     }
 
     /*
-        비동기 동시성 테스트
+        비동기 동시성 테스트 [993 ms]
      */
     @Test
     @DisplayName("synchronzied를 사용하여 100개의 재고가 있는 상품에 동시에 100번의 재고 차감을 했을 때, 동시성을 보장하여 남은 재고가 0이 된다.")
@@ -80,10 +79,11 @@ class SynchronizedProductServiceTest {
         Long quantity = 1L;
         Product requestProduct = new Product(id, quantity);
         int count = 100;
-        AtomicInteger exceptionCount = new AtomicInteger(0);    // 재고 차감 예외 카운트
- 
+        AtomicInteger exceptionCount = new AtomicInteger(0);      // 재고 차감 예외 카운트
+        List<CompletableFuture<Void>> futures = new ArrayList<>();          // 비동기 작업 목록
+
         //when
-        List<CompletableFuture<Void>> futures = new ArrayList<>();  // 비동기 작업 목록
+        Long startTimeConcurrentLock = System.currentTimeMillis();
         for (int i = 0; i < count; i++) {
             futures.add(CompletableFuture.supplyAsync(() -> {       // supplyAsync() : 비동기 작업을 생성
                 try { service.decreaseStock(requestProduct); }
@@ -97,6 +97,9 @@ class SynchronizedProductServiceTest {
         CompletableFuture<Void> allFutures = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));    // 모든 비동기 작업 리스트를 하나의 CompletableFuture 객체로 생성
         //allFutures의 모든 비동기 작업이 실행될 떄까지 현재 스레드를 차단한다.
         allFutures.join();
+
+        Long endTimeConcurrentLock = System.currentTimeMillis();
+        System.out.println("걸린 시간 : " + (endTimeConcurrentLock - startTimeConcurrentLock) + " ms");
 
         //then
         assertThat(service.findProduct(id).getStock()).isEqualTo(0 + exceptionCount.get()) ;
