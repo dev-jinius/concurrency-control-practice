@@ -1,5 +1,12 @@
 # concurrency-control-practice
 Application and DB level concurrency control tests for Java Spring Boot application.
+## Introuduce
+### For What?
+- Java 애플리케이션에서 메모리를 효율적으로 사용하기 위해 멀티 스레드를 활용하는데, 여러 스레드가 동시에 데이터에 읽기/쓰기 시 동시성 이슈가 발생한다.
+- Race Condition 등의 동시성 이슈를 제어하기 위해 여러 서버 환경에서의 해결방안을 고민하고, 다양한 동기화 매커니즘을 테스트해본다.
+- 이커머스 서비스에 도입하여 동시성 제어를 구현하며, 대용량 트래픽을 고려해 설계하고 성능 개선을 한다.
+
+### Package
 - demo : 동시성 공부 및 재고 차감 비즈니스 로직으로 Application level 동시성 제어 테스트
 - ecommerce : 한 이커머스 서비스 Application
   - 레이어드 + 클린 아키텍처로 구현
@@ -10,7 +17,7 @@ Application and DB level concurrency control tests for Java Spring Boot applicat
   - 대기열 구현 추가 (e.g. 쿠폰 선착순 10명, 할인가 상품 주문 선착순 10명 ..)
 
 ## Done (4/29 ~ 5/4)
-1. 간단한 controller(presentation), service(domain), infra(repository) 레이어로 패키지 구성 및 H2 DB 연동.
+1. 3-tier로 controller(presentation), service(domain), infra(repository) 레이어로 패키지 구성 및 H2 DB 연동.
 2. Application Level Lock, 비관적 락 사용한 재고 차감 동시성 제어 및 테스트
     - 이슈 : ReentrantLock을 사용할 때, 락 실패에 대한 Retry 처리를 하지 않아서 의도한대로 동시성 제어가 잘 안되었다.
     - 해결해야 할 점 : 트랜잭션 앞단에 Layer(Facade Layer)를 두어 락 실패 시 Retry하는 로직을 추가해 제어해야겠다고 생각함.
@@ -105,7 +112,7 @@ DB Transaction 격리 수준에 대한 고민
   - Lock의 범위가 커질 수 있으므로, 다른 테이블에서의 조회에 영향을 미치지 않도록 주의해야 한다.
   - 조회에 사용되는 락의 범위가 Table 단위인지, Row 단위인지에 따라 성능에 미치는 영향이 다르다.
     - PK와 조회에 사용하는 컬럼이 같다면 Row 단위로 Lock이 걸리고, 다르다면 Table 단위로 Lock이 걸린다.
-  ### 3. 네임드 락(Named Lock)
+  #### 3. 네임드 락(Named Lock)
     - MySQL에서 제공하는 user-level lock
     - 비관적 락과의 차이점 : 비관적 락은 row 또는 테이블 단위로 lock을 걸지만, 네임드 락은 metadata 단위(문자열)로 lock을 건다.
     - 별도의 공간에 lock 정보가 저장된다. 
