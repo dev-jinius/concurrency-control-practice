@@ -11,12 +11,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = EcommerceException.class)
-    public ResponseEntity<ErrorResponse> handleException(EcommerceException e) {
-        log.warn(e.getErrorCode().getMessage());
+    public ResponseEntity<ErrorResponse> handleEcommerceException(EcommerceException e) {
+        log.debug(e.getErrorCode().getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getErrorCode().getCode(), e.getErrorCode().getMessage()));
     }
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
+        log.warn(e.getMessage());
         return ResponseEntity.internalServerError().body(new ErrorResponse("ERR-00","서버 오류"));
     }
 }

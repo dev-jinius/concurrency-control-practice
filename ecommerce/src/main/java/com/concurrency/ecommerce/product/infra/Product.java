@@ -17,12 +17,12 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-    @Column(name = "product_name", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(name = "product_price", nullable = false, columnDefinition = "BIGINT")
+    @Column(nullable = false, columnDefinition = "BIGINT")
     private BigInteger price;
 
-    @Column(name = "stock_quantity", nullable = false)
-    private Long quantity;
+    @Column(nullable = false)
+    private Long stockQuantity;
 }

@@ -30,6 +30,7 @@ spring:
       data-locations: 'classpath:/tdata.sql'
       mode: always
       platform: h2
+
 # Swagger
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8

@@ -26,7 +26,7 @@ public class UserPointController {
 
     @PatchMapping
     @Operation(summary = "유저 포인트 충전 API", description = "유저 포인트 충전")
-    public ResponseEntity<UserPointResponse> point(UserPointRequest request) {
+    public ResponseEntity<UserPointResponse> point(@RequestBody UserPointRequest request) {
         UserPointResponse response = userFacade.charge(request);
         return ResponseEntity.ok().body(response);
     }
