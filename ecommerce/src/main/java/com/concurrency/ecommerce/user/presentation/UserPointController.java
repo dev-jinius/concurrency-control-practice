@@ -1,6 +1,6 @@
 package com.concurrency.ecommerce.user.presentation;
 
-import com.concurrency.ecommerce.user.application.UserFacade;
+import com.concurrency.ecommerce.user.application.UserPointFacade;
 import com.concurrency.ecommerce.user.application.UserPointRequest;
 import com.concurrency.ecommerce.user.application.UserPointResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "UserPoint", description = "유저 포인트 API")
 public class UserPointController {
 
-    private final UserFacade userFacade;
+    private final UserPointFacade userPointFacade;
 
     @GetMapping("/{userId}")
     @Operation(summary = "유저 포인트 조회 API", description = "유저 포인트 조회")
     public ResponseEntity<UserPointResponse> point(@PathVariable(value = "userId") Long userId) {
-        UserPointResponse response = userFacade.point(userId);
+        UserPointResponse response = userPointFacade.point(userId);
         return ResponseEntity.ok().body(response);
     }
 
     @PatchMapping
     @Operation(summary = "유저 포인트 충전 API", description = "유저 포인트 충전")
     public ResponseEntity<UserPointResponse> point(@RequestBody UserPointRequest request) {
-        UserPointResponse response = userFacade.charge(request);
+        UserPointResponse response = userPointFacade.charge(request);
         return ResponseEntity.ok().body(response);
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    //락 획득 실패
+    FAILED_ACQUIRE_RLOCK(HttpStatus.BAD_REQUEST.value(),"ERR-999", "요청이 많아 처리에 실패했습니다. 다시 시도해주세요."),
+
     //유저 관련
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST.value(),"ERR-001", "파라미터를 확인해주세요."),
     NOT_FOUND_USER(HttpStatus.BAD_REQUEST.value(),"ERR-101", "일치하는 유저가 없습니다."),

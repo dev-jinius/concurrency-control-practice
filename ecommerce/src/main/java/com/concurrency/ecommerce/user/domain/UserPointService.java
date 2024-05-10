@@ -2,13 +2,12 @@ package com.concurrency.ecommerce.user.domain;
 
 import com.concurrency.ecommerce.common.EcommerceException;
 import com.concurrency.ecommerce.common.ErrorCode;
+import com.concurrency.ecommerce.common.aop.DistributedLock;
 import com.concurrency.ecommerce.user.domain.model.UserPointDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class UserPointService {
         return userPointRepository.getUserPointWithOptimisticLock(userId).orElseThrow(() -> new EcommerceException(ErrorCode.NOT_FOUND_USER));
     }
 
-    //포인트 업데이트
+    //포인트 업데이트 (Optimistic Lock)
     public UserPointDto savePoint(UserPointDto userPointDto) {
         UserPointDto result = null;
         try {
@@ -32,5 +31,10 @@ public class UserPointService {
             throw new EcommerceException(ErrorCode.FAILED_OPTIMISTIC_LOCK);
         }
         return result;
+    }
+
+    //포인트 업데이트 (Distributed Lock)
+    public UserPointDto savePointWithDistributedLock(UserPointDto userPointDto) {
+        return userPointRepository.saveUserPoint(userPointDto);
     }
 }
