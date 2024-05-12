@@ -42,7 +42,7 @@ class UserPointServiceTest {
         BigInteger point = BigInteger.valueOf(10000);
 
         //when
-        when(userPointRepository.getUserPointWithOptimisticLock(userId)).thenReturn(Optional.of(new UserPointDto(userId, point)));
+        when(userPointRepository.getUserPoint(userId)).thenReturn(Optional.of(new UserPointDto(userId, point)));
         UserPointDto result = sut.getPoint(userId);
 
         //then
@@ -59,7 +59,7 @@ class UserPointServiceTest {
         Throwable exception = null;
 
         //when
-        when(userPointRepository.getUserPointWithOptimisticLock(userId)).thenReturn(Optional.empty());
+        when(userPointRepository.getUserPoint(userId)).thenReturn(Optional.empty());
         try {
             sut.getPoint(userId);
         } catch (EcommerceException e) {
@@ -85,7 +85,7 @@ class UserPointServiceTest {
         BigInteger requestPoint = BigInteger.valueOf(30000);
 
         UserPointDto originUser = new UserPointDto(userId, originPoint);
-        given(userPointRepository.getUserPointWithOptimisticLock(userId)).willReturn(Optional.of(originUser));
+        given(userPointRepository.getUserPoint(userId)).willReturn(Optional.of(originUser));
 
         UserPointDto testUser = new UserPointDto(userId, originUser.getPoint().add(requestPoint));
         given(userPointRepository.saveUserPoint(any())).willReturn(testUser);

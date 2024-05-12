@@ -15,7 +15,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //상품 조회
     //Order By : 비관적 락 사용 시 데드락 방지.
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Transactional
     List<Product> findByProductIdInOrderByProductId(List<Long> ids);
 
 }

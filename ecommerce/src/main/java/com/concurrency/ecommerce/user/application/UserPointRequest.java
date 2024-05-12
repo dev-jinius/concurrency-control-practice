@@ -28,6 +28,7 @@ public class UserPointRequest {
         return UserPointDto.builder()
                 .userId(userId)
                 .point(point)
+                .version(0L)
                 .build();
     }
 }
