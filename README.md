@@ -16,21 +16,18 @@ Application and DB level concurrency control tests for Java Spring Boot applicat
   - 대용량 트래픽을 고려한 설계 및 성능 개선을 위한 추가 구현(DB Index, Caching Strategy)
   - 대기열 구현 추가 (e.g. 쿠폰 선착순 10명, 할인가 상품 주문 선착순 10명 ..)
 
-## Done (4/29 ~ 5/4)
+## Done (4/29 ~ 5/10)
 1. 3-tier로 controller(presentation), service(domain), infra(repository) 레이어로 패키지 구성 및 H2 DB 연동.
 2. Application Level Lock, 비관적 락 사용한 재고 차감 동시성 제어 및 테스트
     - 이슈 : ReentrantLock을 사용할 때, 락 실패에 대한 Retry 처리를 하지 않아서 의도한대로 동시성 제어가 잘 안되었다.
     - 해결해야 할 점 : 트랜잭션 앞단에 Layer(Facade Layer)를 두어 락 실패 시 Retry하는 로직을 추가해 제어해야겠다고 생각함.
-3. 네임드 락 내용 추가
+3. 기존의 레이어드 아키텍처 + 클린 아키텍처로 ecommerce 프로젝트 구성.
+4. 낙관적 락, 분산 락으로 포인트 충전, 사용(결제) 동시성 제어 추가해서 기능 구현
 
-## To Do (5/5 ~ )
-1. 기존의 레이어드 아키텍처 + 클린 아키텍처로 ecommerce 프로젝트 구성.
-2. 낙관적 락으로 포인트 충전, 사용(결제) 동시성 제어 추가해서 기능 구현
-3. ConcurrentHashMap, ReentrantLock으로 주문의 재고 감소/복원 동시성 제어 추가해서 기능 구현
-4. 비관적 락/네임드 락으로 주문의 재고 감소/복원 동시성 제어 추가해서 기능 구현
-5. 대용량 트래픽을 고려한 설계
-6. 성능 개선을 위한 추가 구현
-7. 대기열 구현 추가
+##  To Do 
+1. 비관적 락으로 주문의 재고 감소/복원 동시성 제어 추가해서 기능 구현
+2. 대용량 트래픽을 고려 및 성능 개선을 위한 인덱스 설계, 조회 시 Redis Cache 도입
+3. 추후 MSA 분리가 되면 Transactional Outbox Pattern 도입하여 트랜잭션 처리 고려
 
 ## 동시성 이슈
 1. Race Condition
