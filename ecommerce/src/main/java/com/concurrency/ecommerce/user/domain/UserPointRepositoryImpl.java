@@ -3,6 +3,7 @@ package com.concurrency.ecommerce.user.domain;
 import com.concurrency.ecommerce.user.domain.model.UserPointDto;
 import com.concurrency.ecommerce.user.infra.User;
 import com.concurrency.ecommerce.user.infra.UserPointJpaRepository;
+import com.concurrency.ecommerce.user.infra.UserPointRedissonJpaRepository;
 import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +17,16 @@ import java.util.Optional;
 public class UserPointRepositoryImpl implements UserPointRepository {
 
     private final UserPointJpaRepository userPointJpaRepository;
+    private final UserPointRedissonJpaRepository userPointRedissonJpaRepository;
 
     @Override
     public Optional<UserPointDto> getUserPoint(Long userId) {
         return userPointJpaRepository.findById(userId).map(user -> user.toDomain());
+    }
+
+    @Override
+    public Optional<UserPointDto> getUserPointRedisson(Long userId) {
+        return userPointRedissonJpaRepository.findById(userId).map(user -> user.toDomain());
     }
 
     @Override

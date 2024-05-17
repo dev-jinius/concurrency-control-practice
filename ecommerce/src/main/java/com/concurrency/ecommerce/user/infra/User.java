@@ -21,7 +21,7 @@ public class User {
     @Column(nullable = false, columnDefinition = "BIGINT")
     private BigInteger point;
 
-    @Version
+//    @Version
     @Column(columnDefinition = "BIGINT DEFAULT 1")
     private Long version;
 

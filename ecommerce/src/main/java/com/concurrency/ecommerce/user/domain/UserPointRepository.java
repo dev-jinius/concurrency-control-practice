@@ -8,5 +8,7 @@ public interface UserPointRepository {
 
     Optional<UserPointDto> getUserPoint(Long userId);
 
+    Optional<UserPointDto> getUserPointRedisson(Long userId);
+
     UserPointDto saveUserPoint(UserPointDto dto);
 }

@@ -16,9 +16,14 @@ public class UserPointService {
 
     private final UserPointRepository userPointRepository;
 
-    //포인트 조회
+    //포인트 조회 (낙관적 락)
     public UserPointDto getPoint(Long userId) {
         return userPointRepository.getUserPoint(userId).orElseThrow(() -> new EcommerceException(ErrorCode.NOT_FOUND_USER));
+    }
+
+    //포인트 조회 (분산 락)
+    public UserPointDto point(Long userId) {
+        return userPointRepository.getUserPointRedisson(userId).orElseThrow(() -> new EcommerceException(ErrorCode.NOT_FOUND_USER));
     }
 
     //포인트 충전 (User 엔티티에 @Version 사용한 낙관적 락 적용)
@@ -40,5 +45,16 @@ public class UserPointService {
         } catch (ObjectOptimisticLockingFailureException e) {
             throw new EcommerceException(ErrorCode.FAILED_OPTIMISTIC_LOCK);
         }
+    }
+
+    //포인트 충전 (분산 락 적용)
+    @Transactional
+    public UserPointDto chargePointRedisson(UserPointDto userPointDto) {
+        //유저 포인트 조회
+        UserPointDto userPoint = point(userPointDto.getUserId());
+        //포인트 충전
+        userPoint.addPoint(userPointDto.getPoint());
+        //포인트 저장
+        return userPointRepository.saveUserPoint(userPoint);
     }
 }
