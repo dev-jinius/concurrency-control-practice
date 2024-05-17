@@ -3,6 +3,7 @@ package com.concurrency.ecommerce.user.domain;
 import com.concurrency.ecommerce.user.domain.model.UserPointDto;
 import com.concurrency.ecommerce.user.infra.User;
 import com.concurrency.ecommerce.user.infra.UserPointJpaRepository;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

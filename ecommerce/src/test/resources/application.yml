@@ -23,17 +23,6 @@ spring:
       data-locations: 'classpath:/data.sql'
       mode: always
 
-  # Redisson
-  data:
-    redis:
-      host: ${REDIS_SERVER_IP}
-      port: ${REDIS_SERVER_PORT}
-      password: ${REDIS_SERVER_PASSWORD}
-
-  autoconfigure:
-    exclude:
-      - org.redisson.spring.starter.RedissonAutoConfigurationV2
-
 # Swagger
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8

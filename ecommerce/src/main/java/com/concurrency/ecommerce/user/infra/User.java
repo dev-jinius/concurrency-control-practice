@@ -1,11 +1,8 @@
 package com.concurrency.ecommerce.user.infra;
 
 import com.concurrency.ecommerce.user.domain.model.UserPointDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.math.BigInteger;
 

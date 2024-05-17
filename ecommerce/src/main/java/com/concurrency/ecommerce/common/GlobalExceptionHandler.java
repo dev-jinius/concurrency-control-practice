@@ -12,7 +12,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = EcommerceException.class)
     public ResponseEntity<ErrorResponse> handleEcommerceException(EcommerceException e) {
-        log.debug(e.getErrorCode().getMessage());
+        log.info(e.getErrorCode().getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getErrorCode().getCode(), e.getErrorCode().getMessage()));
     }
     @ExceptionHandler(value = Exception.class)

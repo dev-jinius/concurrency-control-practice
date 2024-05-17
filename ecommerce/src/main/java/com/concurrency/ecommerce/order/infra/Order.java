@@ -43,5 +43,5 @@ public class Order {
      * 주문 시간
      */
     @CreatedDate
-    private LocalDateTime orderedAt;
+    private LocalDateTime createAt;
 }

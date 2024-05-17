@@ -1,5 +1,6 @@
-package com.concurrency.ecommerce.user.application;
+package com.concurrency.ecommerce.user.presentation;
 
+import com.concurrency.ecommerce.user.application.UserPointParam;
 import com.concurrency.ecommerce.user.domain.model.UserPointDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -20,15 +21,10 @@ public class UserPointRequest {
     @Min(value = 1, message = "0 포인트 이상 가능합니다.")
     private BigInteger point;           //포인트
 
-    public UserPointRequest(Long userId) {
-        this.userId = userId;
-    }
-
-    public UserPointDto toDomain() {
-        return UserPointDto.builder()
+    public UserPointParam toParam() {
+        return UserPointParam.builder()
                 .userId(userId)
                 .point(point)
-                .version(0L)
                 .build();
     }
 }
