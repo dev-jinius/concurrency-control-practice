@@ -1,0 +1,10 @@
+package com.concurrency.ecommerce.order.domain;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class OrderService {
+
+}

@@ -20,7 +20,13 @@ public class RedisLockHandler {
     private final ApplicationEventPublisher applicationEventPublisher;
     private final RedisLockTransactionHandler redisLockTransactionHandler;
 
-    public <T> T callWithLock(String lockKey, Supplier<T> supplier, long waitTime, long leaseTime, TimeUnit unit) {
+    public <T> T lock(String lockKey, Supplier<T> supplier) {
+        String key = REDISSON_LOCK_PREFIX + lockKey;
+        final RLock lock = redissonClient.getLock(key);
+        return this.execute(key, lock, supplier, 0, 5, TimeUnit.SECONDS);
+    }
+
+    public <T> T tryLock(String lockKey, Supplier<T> supplier, long waitTime, long leaseTime, TimeUnit unit) {
         String key = REDISSON_LOCK_PREFIX + lockKey;
         final RLock lock = redissonClient.getLock(key);
         return this.execute(key, lock, supplier, waitTime, leaseTime, unit);
