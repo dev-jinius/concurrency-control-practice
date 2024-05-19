@@ -17,11 +17,13 @@ public class UserPointService {
     private final UserPointRepository userPointRepository;
 
     //포인트 조회 (낙관적 락)
+    @Transactional
     public UserPointDto getPoint(Long userId) {
         return userPointRepository.getUserPoint(userId).orElseThrow(() -> new EcommerceException(ErrorCode.NOT_FOUND_USER));
     }
 
     //포인트 조회 (분산 락)
+    @Transactional
     public UserPointDto point(Long userId) {
         return userPointRepository.getUserPointRedisson(userId).orElseThrow(() -> new EcommerceException(ErrorCode.NOT_FOUND_USER));
     }

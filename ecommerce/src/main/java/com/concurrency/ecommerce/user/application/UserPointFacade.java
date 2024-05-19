@@ -7,8 +7,7 @@ import com.concurrency.ecommerce.user.domain.model.UserPointDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * MariaDB isloation level - REPEATABLE READ로 `UPDATE`에 대한 동시성 제어
@@ -29,6 +28,7 @@ public class UserPointFacade {
      *
      * @return
      */
+    @Transactional
     public UserPointParam point(Long userId) {
         userValidator.validateUser(userId);
         return UserPointParam.of(userPointService.point(userId));
@@ -39,6 +39,7 @@ public class UserPointFacade {
      * @param param
      * @return
      */
+    @Transactional
     public UserPointParam charge(UserPointParam param) {
         log.info("[{}] 충전 요청", Thread.currentThread().getName());
 
@@ -54,6 +55,7 @@ public class UserPointFacade {
      * @param param
      * @return
      */
+    @Transactional
     public UserPointParam executeCharge(UserPointParam param) {
         userValidator.validateUserPoint(param.toDomain());
         String key = LOCK_KEY_PREFIX + param.getUserId();
